@@ -1,119 +1,65 @@
 <template>
   <div id="main">
-    <v-card
-      v-if="is_telegram_client && is_telegram_api_updated"
-      class="mx-auto"
-      max-width="600"
-    >
-      <AppMenu 
-        @show-qr-scanner="showQRScanner()"  
-        @show-history="show_history = true"
-        @show-settings="show_history = false"          
-      />
+    <v-card v-if="is_telegram_client && is_telegram_api_updated" class="mx-auto" max-width="600">
+      <AppMenu @show-qr-scanner="showQRScanner()" @show-history="show_history = true"
+        @show-settings="show_history = false" />
       <!--history-->
-      <v-card 
-        v-if="show_history"
-      >
-        <div 
-          v-if="!cloud_storage_keys.length"
-          class="text-center headline mb-4 mt-4"
-        >
+      <v-card v-if="show_history">
+        <div v-if="!cloud_storage_keys.length" class="text-center headline mb-4 mt-4">
           Scan a QR code!
         </div>
-        <v-expansion-panels
-          v-if="cloud_storage_keys.length"
-          v-model="expanded_panels"
-          class="mt-4"
-        >
-          <v-expansion-panel
-            v-for="(akey, index) in cloud_storage_keys"
-            :key="index"
-          >
+        <v-expansion-panels v-if="cloud_storage_keys.length" v-model="expanded_panels" class="mt-4">
+          <v-expansion-panel v-for="(akey, index) in cloud_storage_keys" :key="index">
             <v-expansion-panel-title>
               <v-row no-gutters>
-                <v-col
-                  cols="2" 
-                  class="d-flex justify-start"
-                >
+                <v-col cols="2" class="d-flex justify-start">
                   <v-avatar color="grey-lighten-1">
                     <v-icon color="white">
                       {{ getIconFromType(akey) }}
                     </v-icon>
                   </v-avatar>
                 </v-col>
-                <v-col
-                  cols="10"
-                >
+                <v-col cols="10">
                   <div>
-                    <div 
-                      class="headline mb-1"
-                    >
+                    <div class="headline mb-1">
                       {{ limitLength(cloud_storage_values[akey], 35) }}
                     </div>
-                    <div
-                      class="text-subtitle-2 text-grey"
-                    >
+                    <div class="text-subtitle-2 text-grey">
                       {{ formattedDate(akey) }}
                     </div>
                   </div>
                 </v-col>
               </v-row>
             </v-expansion-panel-title>
-            <v-expansion-panel-text 
-              v-if="enriched_values[akey] && enriched_values[akey].hasOwnProperty('type')"
-            >
-              <CardGeo
-                v-if="enriched_values[akey]['type'] === 'geo'"
-                :data="enriched_values[akey]['info']"
-                @remove-key="removeKey(akey)"  
-              />
-              <CardUrl
-                v-if="enriched_values[akey]['type'] === 'url'"
-                :data="enriched_values[akey]['info']"
-                @remove-key="removeKey(akey)" 
-              />
-              <CardWifi
-                v-if="enriched_values[akey]['type'] === 'wifi'"
-                :data="enriched_values[akey]['info']"
-                @remove-key="removeKey(akey)" 
-              />
-              <CardVCard
-                v-if="enriched_values[akey]['type'] === 'vcard'"
-                :data="enriched_values[akey]['info']"
-                @remove-key="removeKey(akey)" 
-              />
-              <CardText
-                v-if="enriched_values[akey]['type'] === 'text'"
-                :text="enriched_values[akey]['info']"
-                @remove-key="removeKey(akey)"
-              />
+            <v-expansion-panel-text v-if="enriched_values[akey] && enriched_values[akey].hasOwnProperty('type')">
+              <CardGeo v-if="enriched_values[akey]['type'] === 'geo'" :data="enriched_values[akey]['info']"
+                @remove-key="removeKey(akey)" />
+              <CardUrl v-if="enriched_values[akey]['type'] === 'url'" :data="enriched_values[akey]['info']"
+                @remove-key="removeKey(akey)" />
+              <CardWifi v-if="enriched_values[akey]['type'] === 'wifi'" :data="enriched_values[akey]['info']"
+                @remove-key="removeKey(akey)" />
+              <CardVCard v-if="enriched_values[akey]['type'] === 'vcard'" :data="enriched_values[akey]['info']"
+                @remove-key="removeKey(akey)" />
+              <CardText v-if="enriched_values[akey]['type'] === 'text'" :text="enriched_values[akey]['info']"
+                @remove-key="removeKey(akey)" />
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
       <!--settings-->
-      <AppSettings 
-        v-if="!show_history"
-        :is-continuous-scan="is_continuous_scan"
-        :cloud-storage-values="cloud_storage_values"
-        :cloud-storage-keys="cloud_storage_keys"
-        :enriched-values="enriched_values"
-        @toggle-continuous_scan="is_continuous_scan = !is_continuous_scan"
-        @load-storage="loadStorage()"
-        @enrich-values="enrichValues(cloud_storage_values)"
-      />
+      <!-- <AppSettings v-if="!show_history" :is-continuous-scan="is_continuous_scan"
+        :cloud-storage-values="cloud_storage_values" :cloud-storage-keys="cloud_storage_keys"
+        :enriched-values="enriched_values" @toggle-continuous_scan="is_continuous_scan = !is_continuous_scan"
+        @load-storage="loadStorage()" @enrich-values="enrichValues(cloud_storage_values)" /> -->
     </v-card>
-    <RequirementsMessage 
-      :is-telegram-client="is_telegram_client"
-      :is-telegram-api-updated="is_telegram_api_updated"
-    />
+    <RequirementsMessage :is-telegram-client="is_telegram_client" :is-telegram-api-updated="is_telegram_api_updated" />
   </div>
 </template>
 
 <script>
 import { detectCodeType, prepareUrl, prepareCoordinate, prepareWifi, prepareVCard } from './helpers';
 import AppMenu from "./components/AppMenu.vue";
-import AppSettings from "./components/AppSettings.vue"
+// import AppSettings from "./components/AppSettings.vue"
 import CardUrl from "./components/CardUrl.vue";
 import CardGeo from "./components/CardGeo.vue";
 import CardWifi from "./components/CardWifi.vue";
@@ -124,7 +70,7 @@ import RequirementsMessage from './components/RequirementsMessage.vue';
 export default {
   components: {
     AppMenu,
-    AppSettings,
+    // AppSettings,
     CardUrl,
     CardGeo,
     CardWifi,
@@ -205,7 +151,7 @@ export default {
       this.enriched_values[key] = {};
       const code_type = detectCodeType(this.cloud_storage_values[key]);
       this.enriched_values[key]['type'] = code_type;
-    
+
       if (code_type == "geo") {
         this.enriched_values[key]['info'] = prepareCoordinate(this.cloud_storage_values[key]);
       } else if (code_type == "wifi") {
@@ -240,8 +186,8 @@ export default {
     showQRScanner() {
       // Sets QR message
       let par = {
-          text: ""
-        };
+        text: ""
+      };
       if (this.is_continuous_scan) {
         par['text'] = "Continuous scan enabled.";
       }
@@ -326,10 +272,10 @@ export default {
 </script>
 
 <style scoped>
-  #main {
-    background-color: var(--tg-theme-bg-color, white);
-    color: var(--tg-theme-text-color, black);
-    /*https://stackoverflow.com/questions/1165497/how-to-prevent-text-from-overflowing-in-css*/
-    word-wrap: break-word;
-  }
+#main {
+  background-color: var(--tg-theme-bg-color, white);
+  color: var(--tg-theme-text-color, black);
+  /*https://stackoverflow.com/questions/1165497/how-to-prevent-text-from-overflowing-in-css*/
+  word-wrap: break-word;
+}
 </style>
