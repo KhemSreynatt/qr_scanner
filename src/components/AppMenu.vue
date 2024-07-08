@@ -1,19 +1,20 @@
 <template>
   <v-toolbar color="#00B5AC">
     <v-spacer />
-    <v-btn @click="$emit('show-qr-scanner')">
+    <v-btn :style="{ color: '#fffff' }" @click="$emit('show-qr-scanner')">
       <v-icon>
         mdi-qrcode-scan
       </v-icon>
       Scan
     </v-btn>
     <v-spacer />
-    <v-btn @click="$emit('show-history')">
+    <v-btn :style="{ color: '#fffff' }" @click="$emit('show-history')">
       <v-icon>
         mdi-history
       </v-icon>
       History
     </v-btn>
+    <v-spacer />
     <!-- <v-spacer />
     <v-btn
       @click="$emit('show-settings')"
