@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="primary">
+  <v-toolbar color="#00B5AC">
     <v-spacer />
     <v-btn @click="$emit('show-qr-scanner')">
       <v-icon>

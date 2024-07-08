@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="600"
-    variant="flat"
-  > 
+  <v-card class="mx-auto" max-width="600" variant="flat">
     <v-card-item>
       <div>
         Network Name: {{ data.S }}
@@ -17,9 +13,7 @@
     </v-card-item>
     <v-card-actions>
       <v-spacer />
-      <ButtonDelete
-        @remove-key="$emit('remove-key')"
-      />
+      <ButtonDelete @remove-key="$emit('remove-key')" />
     </v-card-actions>
   </v-card>
 </template>

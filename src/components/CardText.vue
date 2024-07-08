@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    class="mx-auto"
-    max-width="600"
-    variant="flat"
-  > 
+  <v-card class="mx-auto" max-width="600" variant="flat">
     <v-card-item>
       <div>
         {{ atext }}
@@ -11,9 +7,7 @@
     </v-card-item>
     <v-card-actions>
       <v-spacer />
-      <ButtonDelete
-        @remove-key="$emit('remove-key')"
-      />
+      <ButtonDelete @remove-key="$emit('remove-key')" />
     </v-card-actions>
   </v-card>
 </template>
@@ -28,7 +22,7 @@ export default defineComponent({
   },
   props: {
     text: {
-      type:  String,
+      type: String,
       required: true,
     }
   },
@@ -45,7 +39,7 @@ export default defineComponent({
   },
   methods: {
     openLink(lat, lng) {
-        this.TMA.openLink('https://maps.google.com/?q=' + lat + ',' + lng);
+      this.TMA.openLink('https://maps.google.com/?q=' + lat + ',' + lng);
     },
   },
 });

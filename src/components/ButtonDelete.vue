@@ -1,10 +1,5 @@
 <template>
-  <v-btn
-    color="red"
-    icon="mdi-delete-outline"
-    variant="tonal"
-    @click="$emit('remove-key')"
-  />
+  <v-btn color="red" icon="mdi-delete-outline" variant="tonal" @click="$emit('remove-key')" />
 </template>
 
 <script>
