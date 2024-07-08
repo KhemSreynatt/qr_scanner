@@ -1,14 +1,14 @@
 <template>
   <v-toolbar color="#00B5AC">
     <v-spacer />
-    <v-btn :style="{ color: '#FFFFFF' }" @click="$emit('show-qr-scanner')">
+    <v-btn @click="$emit('show-qr-scanner')">
       <v-icon>
         mdi-qrcode-scan
       </v-icon>
-      Scan
+      <div :style="{ color: '#fffff' }">Scan</div>
     </v-btn>
     <v-spacer />
-    <v-btn :style="{ color: '#FFFFFF' }" @click="$emit('show-history')">
+    <v-btn @click="$emit('show-history')">
       <v-icon>
         mdi-history
       </v-icon>
